@@ -1,0 +1,5 @@
+outs:
+- md5: b3e8ac0f1da2b86a229514fa3e7773da
+  size: 14331624
+  hash: md5
+  path: owid-co2-data.csv

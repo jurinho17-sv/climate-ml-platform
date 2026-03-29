@@ -19,6 +19,10 @@ venv/
 # Environment & secrets
 .env
 
+# DVC-tracked data (git tracks .dvc files, not the data itself)
+data/raw/*.csv
+data/processed/
+
 # Project-specific
 anaconda_projects/
 knowledge/

@@ -1,10 +1,10 @@
 .PHONY: run install clean lint test
 
 run:
-	streamlit run src/app.py
+	streamlit run frontend/app.py
 
 install:
-	pip install -r requirements.txt
+	uv sync
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

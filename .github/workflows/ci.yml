@@ -1,0 +1,2 @@
+# CI pipeline — runs on every push
+# TODO: pytest + great_expectations + dvc repro + Docker build check

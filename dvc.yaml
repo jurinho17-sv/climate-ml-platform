@@ -1,0 +1,14 @@
+stages:
+  ingest:
+    cmd: python -m co2_ml.pipelines.ingest
+    deps:
+      - src/co2_ml/pipelines/ingest.py
+    outs:
+      - data/raw/owid-co2-data.csv
+  preprocess:
+    cmd: python -m co2_ml.pipelines.preprocess
+    deps:
+      - src/co2_ml/pipelines/preprocess.py
+      - data/raw/owid-co2-data.csv
+    outs:
+      - data/processed/ml_ready.parquet
