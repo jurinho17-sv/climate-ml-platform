@@ -1,1 +1,4 @@
-# Chronos-2 zero-shot forecasting config
+model_id: amazon/chronos-t5-tiny   # switch to amazon/chronos-t5-large on DataHub
+horizon: 10
+num_samples: 20
+seed: 42

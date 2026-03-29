@@ -1,1 +1,5 @@
-# N-HiTS fine-tuning config
+horizon: 10
+input_size: 20
+max_steps: 100   # switch to 1000 on DataHub
+learning_rate: 2e-5
+seed: 42

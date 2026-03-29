@@ -1,1 +1,6 @@
-# Baseline experiment config
+name: baseline
+treatment_year: 2016
+placebo_year: 2010
+outcome: co2_per_capita
+controls: [gdp, population, primary_energy_consumption]
+seed: 42
