@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         app.state.df = None
 
     # 2. Load NeuralForecast model
-    forecast_path = root / "models" / "forecasting"
+    forecast_path = root / "models" / "nhits"
     try:
         from neuralforecast import NeuralForecast
 
@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         app.state.nf_model = None
 
     # 3. Load LSTM Autoencoder
-    ae_path = root / "models" / "anomaly" / "lstm_ae.pt"
+    ae_path = root / "models" / "lstm_ae" / "lstm_ae.pt"
     try:
         from co2_ml.models.anomaly import LSTMAutoencoder
 
