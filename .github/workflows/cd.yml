@@ -4,11 +4,21 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
+  deploy-api:
+    name: Deploy API Space (Docker SDK)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Push to HuggingFace Spaces
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install huggingface-hub
+        run: pip install huggingface-hub
+
+      - name: Prepare and upload API Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
@@ -16,5 +26,75 @@ jobs:
             echo "HF_TOKEN not set — skipping deploy"
             exit 0
           fi
-          git remote add hf https://user:$HF_TOKEN@huggingface.co/spaces/jurinho17-sv/global-co2-insight || true
-          git push hf main --force
+
+          STAGING=$(mktemp -d)
+
+          # Copy Dockerfile (renamed from Dockerfile.api)
+          cp Dockerfile.api "$STAGING/Dockerfile"
+
+          # Copy source code and dependencies
+          cp pyproject.toml "$STAGING/"
+          cp README.md "$STAGING/"
+          cp -r src "$STAGING/"
+          cp -r api "$STAGING/"
+          cp -r configs "$STAGING/"
+          cp -r models "$STAGING/"
+          mkdir -p "$STAGING/data/processed"
+          cp data/processed/ml_ready.parquet "$STAGING/data/processed/"
+
+          # Upload to HF Space
+          huggingface-cli upload \
+            jurinho17-sv/global-co2-insight-api \
+            "$STAGING" . \
+            --repo-type space \
+            --token "$HF_TOKEN"
+
+  deploy-frontend:
+    name: Deploy Frontend Space (Streamlit SDK)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install huggingface-hub
+        run: pip install huggingface-hub
+
+      - name: Prepare and upload Frontend Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN not set — skipping deploy"
+            exit 0
+          fi
+
+          STAGING=$(mktemp -d)
+
+          # Streamlit SDK expects app.py at root
+          cp frontend/app.py "$STAGING/app.py"
+
+          # Copy component modules if they have content
+          if [ -d frontend/components ]; then
+            cp -r frontend/components "$STAGING/components"
+          fi
+
+          # Generate requirements.txt
+          cat > "$STAGING/requirements.txt" <<'REQEOF'
+          streamlit
+          httpx
+          plotly
+          pandas
+          REQEOF
+          # Remove leading whitespace from heredoc
+          sed -i 's/^[[:space:]]*//' "$STAGING/requirements.txt"
+
+          # Upload to HF Space
+          huggingface-cli upload \
+            jurinho17-sv/global-co2-insight \
+            "$STAGING" . \
+            --repo-type space \
+            --token "$HF_TOKEN"

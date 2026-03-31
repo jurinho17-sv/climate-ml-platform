@@ -12,7 +12,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from api.routers import anomalies, forecast, health, policy
+from api.routers import anomalies, data, forecast, health, policy
 from co2_ml.config import settings
 
 logger = logging.getLogger(__name__)
@@ -82,7 +82,11 @@ app = FastAPI(
 # CORS for Streamlit frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8501"],
+    allow_origins=[
+        "http://localhost:8501",
+        "https://*.hf.space",
+    ],
+    allow_origin_regex=r"https://.*\.hf\.space",
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -91,6 +95,7 @@ app.add_middleware(
 app.include_router(health.router, tags=["Health"])
 app.include_router(forecast.router, prefix="/forecast", tags=["Forecasting"])
 app.include_router(anomalies.router, prefix="/anomalies", tags=["Anomaly Detection"])
+app.include_router(data.router, prefix="/data", tags=["Data"])
 app.include_router(policy.router, prefix="/policy_effect", tags=["Causal Inference"])
 
 
