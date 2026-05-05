@@ -1,0 +1,84 @@
+{
+  "expectations": [
+    {
+      "id": "a6aec713-f3d4-449f-a57a-c93d6ee62def",
+      "kwargs": {
+        "column": "country"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_to_exist"
+    },
+    {
+      "id": "009afba3-4231-4a6d-8556-599133ccc707",
+      "kwargs": {
+        "column": "year"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_to_exist"
+    },
+    {
+      "id": "70015cb3-a458-402b-9148-27ca300bac60",
+      "kwargs": {
+        "column": "iso_code"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_to_exist"
+    },
+    {
+      "id": "8a098366-b683-4a17-80a6-b7bf462c86c5",
+      "kwargs": {
+        "column": "co2"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_to_exist"
+    },
+    {
+      "id": "8857e154-6da3-464d-b5fa-d49a0f97b5b1",
+      "kwargs": {
+        "column": "country"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "4f9031c3-5918-441c-96ac-6a82f56fb820",
+      "kwargs": {
+        "column": "year"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "dc8a73ba-e948-49c1-975b-4b434d401d5d",
+      "kwargs": {
+        "column": "year",
+        "max_value": 2030.0,
+        "min_value": 1750.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "592a2352-a5a8-429b-98a0-254c743d92f5",
+      "kwargs": {
+        "min_value": 10001
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "e568932b-87ed-46d7-a369-0cb4dec38364",
+  "meta": {
+    "great_expectations_version": "1.15.1"
+  },
+  "name": "raw_owid_suite",
+  "notes": null
+}

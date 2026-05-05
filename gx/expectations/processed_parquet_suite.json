@@ -1,0 +1,76 @@
+{
+  "expectations": [
+    {
+      "id": "18f4b39c-2426-439a-b9a8-2ffa7f4f1930",
+      "kwargs": {
+        "max_value": 20000,
+        "min_value": 10000
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_row_count_to_be_between"
+    },
+    {
+      "id": "8eb141e4-1bb7-4056-9297-af2f392ce430",
+      "kwargs": {
+        "column": "iso_code"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "c0f6f0e1-79b4-4456-ad24-9e29164b1ba2",
+      "kwargs": {
+        "column": "year"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "93ea56a2-9ea1-476b-bd98-cfb80ef348cc",
+      "kwargs": {
+        "column": "country"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "c07614f6-22cf-40b5-af50-d3b67af39b12",
+      "kwargs": {
+        "column": "co2"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_to_exist"
+    },
+    {
+      "id": "8875ee30-4138-4df4-b429-b80377ae7344",
+      "kwargs": {
+        "column": "year",
+        "max_value": 2030.0,
+        "min_value": 1960.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "62b23409-9556-4774-9311-1669f8699d3e",
+      "kwargs": {
+        "value": 19
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_column_count_to_equal"
+    }
+  ],
+  "id": "6000b0c3-dbbf-43ed-a4fc-e61781125b5a",
+  "meta": {
+    "great_expectations_version": "1.15.1"
+  },
+  "name": "processed_parquet_suite",
+  "notes": null
+}
