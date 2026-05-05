@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_co2
+    description: "Cleaned, typed OWID CO2 data filtered to year>=1960 with valid ISO codes."
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [iso_code, year]
+    columns:
+      - name: iso_code
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: country_name
+        tests:
+          - not_null
+      - name: co2
+        tests:
+          - not_null:
+              where: "iso_code IS NOT NULL"
+              config:
+                severity: warn

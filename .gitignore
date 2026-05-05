@@ -40,3 +40,10 @@ logs/
 
 # Lock files (reproducibility handled by pyproject.toml)
 uv.lock
+
+# dbt warehouse
+warehouse/co2_warehouse/target/
+warehouse/co2_warehouse/dbt_packages/
+warehouse/co2_warehouse/logs/
+data/warehouse/
+.user.yml

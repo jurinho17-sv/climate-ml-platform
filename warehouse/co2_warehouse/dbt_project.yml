@@ -1,0 +1,17 @@
+name: co2_warehouse
+version: "1.0.0"
+config-version: 2
+profile: co2_warehouse
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  co2_warehouse:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: ephemeral
+    mart:
+      +materialized: table

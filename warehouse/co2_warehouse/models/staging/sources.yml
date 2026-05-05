@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    meta:
+      external_location: "../../data/processed/ml_ready.parquet"
+    tables:
+      - name: co2_emissions
+        description: "OWID CO2 dataset — ML-ready parquet (~14K rows, 19 cols)"

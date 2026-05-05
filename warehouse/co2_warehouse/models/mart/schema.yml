@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: mart_country_emissions
+    description: "Final analytics table: country-year emissions with YoY metrics and trend label."
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [iso_code, year]
+    columns:
+      - name: iso_code
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: country_name
+        tests:
+          - not_null

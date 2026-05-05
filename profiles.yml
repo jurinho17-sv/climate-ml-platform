@@ -1,0 +1,7 @@
+co2_warehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "../../data/warehouse/co2.duckdb"
+      threads: 4

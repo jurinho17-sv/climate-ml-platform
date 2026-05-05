@@ -1,4 +1,4 @@
-.PHONY: run serve install clean lint test
+.PHONY: run serve install clean lint test warehouse
 
 run:
 	streamlit run frontend/app.py
@@ -19,3 +19,7 @@ lint:
 
 test:
 	pytest tests/ -v
+
+warehouse:
+	mkdir -p data/warehouse
+	cd warehouse/co2_warehouse && dbt deps --profiles-dir ../.. && dbt run --profiles-dir ../.. && dbt test --profiles-dir ../..
