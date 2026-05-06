@@ -96,12 +96,11 @@ def run_staggered_did(
             model = pf.feols(simple_formula, data=did_df)
         else:
             raise
-    summary = model.tidy()
-
-    # Extract ATT for the treatment variable
-    treat_row = summary[summary["Coefficient"] == treatment_col].iloc[0]
-    att = float(treat_row["Estimate"])
-    se = float(treat_row["Std. Error"])
+    # Extract ATT via model.coef()/model.se() — stable across pyfixest versions
+    coefs = model.coef()
+    ses = model.se()
+    att = float(coefs[treatment_col]) if treatment_col in coefs.index else float(coefs.iloc[0])
+    se = float(ses[treatment_col]) if treatment_col in ses.index else float(ses.iloc[0])
 
     return {
         "att": att,
