@@ -2,16 +2,22 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pandas as pd
 import yaml
 
-CONFIGS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "configs" / "experiment"
+CONFIGS_DIR = Path(
+    os.environ.get(
+        "CONFIGS_DIR",
+        str(Path(__file__).resolve().parent.parent.parent.parent / "configs"),
+    )
+)
 
 
 def _load_config(name: str = "baseline") -> dict:
-    with open(CONFIGS_DIR / f"{name}.yaml") as f:
+    with open(CONFIGS_DIR / "experiment" / f"{name}.yaml") as f:
         return yaml.safe_load(f)
 
 
