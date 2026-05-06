@@ -103,6 +103,11 @@ jobs:
             cp -r frontend/components "$STAGING/components"
           fi
 
+          # Copy frontend pages if any exist
+          if [ -d frontend/pages ] && [ "$(ls -A frontend/pages)" ]; then
+            cp -r frontend/pages "$STAGING/pages"
+          fi
+
           # Generate requirements.txt
           cat > "$STAGING/requirements.txt" <<'REQEOF'
           streamlit
