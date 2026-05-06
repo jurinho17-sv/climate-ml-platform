@@ -35,7 +35,15 @@ def run_forecast(
             nf_df[cov] = country_df[cov].ffill().fillna(0).values
 
     # Predict using pre-trained model (fixed horizon from training)
-    forecast_df = nf_model.predict(df=nf_df)
+    # Force CPU on HF Space CPU Basic by hiding CUDA from PyTorch Lightning
+    import torch as _torch
+
+    _original_cuda_available = _torch.cuda.is_available
+    _torch.cuda.is_available = lambda: False
+    try:
+        forecast_df = nf_model.predict(df=nf_df)
+    finally:
+        _torch.cuda.is_available = _original_cuda_available
     predictions = forecast_df["NHITS"].tolist()
 
     # Cap at requested horizon

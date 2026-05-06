@@ -88,7 +88,7 @@ def run_staggered_did(
     formula = f"{outcome} ~ {treatment_col} + {control_str} | iso_code + year"
 
     # Run two-way fixed effects regression
-    model = pf.feols(formula, data=did_df)
+    model = pf.feols(formula, data=did_df, demeaning_max_iterations=100000)
     summary = model.tidy()
 
     # Extract ATT for the treatment variable
