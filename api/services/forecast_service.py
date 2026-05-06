@@ -6,8 +6,25 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import pytorch_lightning as pl
+import torch as _torch
 
 from api.schemas.forecast import ConformalInterval, ForecastResponse
+
+# Force CPU on environments without CUDA (e.g. HF Space CPU Basic).
+# The saved NHiTS checkpoint embeds GPU trainer settings, so we patch
+# pl.Trainer.__init__ to override the accelerator before predict() builds it.
+_original_trainer_init = pl.Trainer.__init__
+
+
+def _patched_trainer_init(self, *args, **kwargs):
+    if not _torch.cuda.is_available():
+        kwargs["accelerator"] = "cpu"
+        kwargs.pop("devices", None)
+    _original_trainer_init(self, *args, **kwargs)
+
+
+pl.Trainer.__init__ = _patched_trainer_init
 
 
 def run_forecast(
@@ -35,15 +52,7 @@ def run_forecast(
             nf_df[cov] = country_df[cov].ffill().fillna(0).values
 
     # Predict using pre-trained model (fixed horizon from training)
-    # Force CPU on HF Space CPU Basic by hiding CUDA from PyTorch Lightning
-    import torch as _torch
-
-    _original_cuda_available = _torch.cuda.is_available
-    _torch.cuda.is_available = lambda: False
-    try:
-        forecast_df = nf_model.predict(df=nf_df)
-    finally:
-        _torch.cuda.is_available = _original_cuda_available
+    forecast_df = nf_model.predict(df=nf_df)
     predictions = forecast_df["NHITS"].tolist()
 
     # Cap at requested horizon

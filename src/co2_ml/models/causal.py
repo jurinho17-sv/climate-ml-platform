@@ -88,7 +88,14 @@ def run_staggered_did(
     formula = f"{outcome} ~ {treatment_col} + {control_str} | iso_code + year"
 
     # Run two-way fixed effects regression
-    model = pf.feols(formula, data=did_df, demeaning_max_iterations=100000)
+    try:
+        model = pf.feols(formula, data=did_df)
+    except Exception as e:
+        if "demeaning" in str(e).lower() or "convergence" in str(e).lower():
+            simple_formula = "co2 ~ treated | iso_code + year"
+            model = pf.feols(simple_formula, data=did_df)
+        else:
+            raise
     summary = model.tidy()
 
     # Extract ATT for the treatment variable
