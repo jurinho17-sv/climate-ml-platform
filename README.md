@@ -21,9 +21,20 @@ backend with a Streamlit frontend on HuggingFace Spaces.
 
 ## Screenshots
 
-| Forecast | Anomaly Detection | Policy Impact |
-|---|---|---|
-| ![CO2 Forecast](assets/forecast_usa.png) | ![Anomaly Detection](assets/anomaly_usa.png) | ![Policy Impact](assets/policy_impact.png) |
+<p align="center">
+  <img src="assets/forecast_usa.png" width="85%" alt="CO2 Emissions Forecast"/>
+  <br><em>CO2 Emissions Forecast — N-HiTS, United States, 10-year horizon</em>
+</p>
+
+<p align="center">
+  <img src="assets/anomaly_usa.png" width="85%" alt="Emission Anomaly Detection"/>
+  <br><em>Emission Anomaly Detection — LSTM Autoencoder, United States</em>
+</p>
+
+<p align="center">
+  <img src="assets/policy_impact.png" width="85%" alt="Paris Agreement Policy Impact"/>
+  <br><em>Paris Agreement Policy Impact — ATT = -0.225 Mt, 95% CI [-0.527, +0.076], 164 countries</em>
+</p>
 
 ---
 
