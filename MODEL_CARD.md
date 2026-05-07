@@ -1,7 +1,7 @@
 # Model Card: Global CO2 Insight
 
 **Version:** 1.0  |  **Updated:** May 2026
-- **Repo:** https://github.com/jurinho17-sv/global-co2-insight
+- **Repo:** https://github.com/jurinho17-sv/climate-ml-platform
 - **Demo:** https://huggingface.co/spaces/jurinho17-sv/global-co2-insight
 
 ---
