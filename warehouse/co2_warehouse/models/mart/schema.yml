@@ -16,3 +16,22 @@ models:
       - name: country_name
         tests:
           - not_null
+
+  - name: mart_ml_features
+    description: "Gold-tier ML feature table consumed by N-HiTS, LSTM-AE, and the staggered-DiD causal model. Built from silver_conformed.country_year_panel."
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [iso_code, year]
+    columns:
+      - name: iso_code
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: paris_treated
+        tests:
+          - not_null
+      - name: years_since_ratification
+        tests:
+          - not_null

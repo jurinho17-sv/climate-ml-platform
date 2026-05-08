@@ -19,7 +19,7 @@ SELECT
     nitrous_oxide,
     total_ghg,
     CURRENT_TIMESTAMP                  AS _loaded_at
-FROM {{ source('silver_conformed', 'co2_emissions') }}
+FROM {{ source('silver_conformed', 'country_year_panel') }}
 WHERE year >= 1960
   AND iso_code IS NOT NULL
   AND iso_code != ''
