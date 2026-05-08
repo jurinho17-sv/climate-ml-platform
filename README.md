@@ -1,4 +1,4 @@
-# Global CO2 Insight
+# Climate ML Platform
 
 End-to-end climate ML platform: time-series forecasting, anomaly detection, and causal
 inference on CO2 emissions across 205 countries (1960-2023), served through a FastAPI
@@ -160,6 +160,12 @@ force with individual country ratification dates for staggered DiD.
 
 Pipeline: PySpark ETL on DataHub -> DVC-tracked Parquet -> Great Expectations
 validation (schema, nulls, range contracts). Reproduce with `dvc repro`.
+
+---
+
+## Requirements
+
+dbt >= 1.10.5 required (local dev). CI uses dbt 1.11.9.
 
 ---
 

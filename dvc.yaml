@@ -32,11 +32,14 @@ stages:
 
   dbt_gold:
     cmd: >
-      dbt run --profiles-dir ../.. --project-dir warehouse/co2_warehouse &&
-      dbt test --profiles-dir ../.. --project-dir warehouse/co2_warehouse
+      dbt deps --profiles-dir . --project-dir warehouse/co2_warehouse &&
+      dbt run --profiles-dir . --project-dir warehouse/co2_warehouse &&
+      dbt test --profiles-dir . --project-dir warehouse/co2_warehouse
     deps:
       - data/silver/conformed/country_year_panel.parquet
       - warehouse/co2_warehouse/models
+      - profiles.yml
+      - warehouse/co2_warehouse/packages.yml
     outs:
       - data/warehouse/co2.duckdb
 
