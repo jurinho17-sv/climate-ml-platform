@@ -50,6 +50,7 @@ jobs:
           python -m co2_ml.pipelines.silver_clean_pandas
           # Build Gold via dbt (writes mart_ml_features into data/warehouse/co2.duckdb)
           export DBT_DUCKDB_PATH="${GITHUB_WORKSPACE}/data/warehouse/co2.duckdb"
+          export SILVER_CONFORMED_PATH="${GITHUB_WORKSPACE}/data/silver/conformed/country_year_panel.parquet"
           dbt deps --project-dir warehouse/co2_warehouse --profiles-dir .
           dbt run --profiles-dir . --project-dir warehouse/co2_warehouse
           # Export the dbt mart to flat parquet at data/gold/ml_features.parquet (system of record for the API)

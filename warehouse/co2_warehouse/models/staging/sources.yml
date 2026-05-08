@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: silver_conformed
     meta:
-      external_location: "../../data/silver/conformed/country_year_panel.parquet"
+      external_location: "{{ env_var('SILVER_CONFORMED_PATH', '../../data/silver/conformed/country_year_panel.parquet') }}"
     tables:
       - name: country_year_panel
         description: "Silver-tier conformed country-year panel (~14K rows). Built by silver_clean_spark.py on DataHub with OWID + WorldBank WDI + Paris ratification joins. Locally bootstrapped from cleansed/owid_co2.parquet until DataHub run lands."
