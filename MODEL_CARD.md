@@ -1,4 +1,10 @@
-# Model Card: Global CO2 Insight
+# Model Card: Climate ML Platform
+
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.4-EE4C2C.svg)](https://pytorch.org/)
+[![NeuralForecast](https://img.shields.io/badge/NeuralForecast-3.x-024DFD.svg)](https://github.com/Nixtla/neuralforecast)
+[![HF Spaces](https://img.shields.io/badge/HF-Spaces-FFD21E.svg)](https://huggingface.co/spaces/jurinho17-sv/global-co2-insight)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
 **Version:** 1.0  |  **Updated:** May 2026
 - **Repo:** https://github.com/jurinho17-sv/climate-ml-platform
@@ -53,9 +59,11 @@ on pre-2000 data per country, anomalies evaluated on 2000-2023 holdout.
 | Architecture | Multi-rate sampling, hierarchical interpolation | 2-layer LSTM encoder-decoder, hidden=64 |
 | Optimizer | Adam | Adam, lr=1e-3 |
 | Seed | 42 | 42 |
-| Hardware | NVIDIA L40 48 GB (Berkeley DataHub) | NVIDIA L40 48 GB |
+| Hardware | NVIDIA L40 48GB | NVIDIA L40 48GB |
 
 W&B training report: https://api.wandb.ai/links/justin-california777-university-of-california-berkeley/0pr2auhs
+
+*Time-based split: 1960-2018 train, 2019-2021 validation, 2022-2023 test. All training runs are logged to W&B; exact hyperparameters, seed (42), and data version (DVC-tracked) are captured in the W&B report linked above.*
 
 ---
 
@@ -90,14 +98,20 @@ consistent with recent econometrics literature on the Paris Agreement.
 
 ## Limitations
 
-- N-HiTS horizon is fixed at h=10; the checkpoint cannot produce longer-range forecasts.
-- SMAPE and MASE are inflated for low-emitter countries due to near-zero denominators.
-  Future mitigation: log-transform targets or apply emission-weighted loss.
-- LSTM-AE uses a global Isolation Forest threshold across all countries. Country-specific
-  thresholds would improve precision for structurally different emission profiles.
-- The LSTM-AE design predates Anomaly Transformer and TimesNet; upgrading is planned.
-- The Paris Agreement causal estimate is inconclusive. A longer post-treatment window
-  or richer covariates are needed for statistical significance.
+- **Fixed forecast horizon (h=10)**: The checkpoint cannot produce forecasts beyond 10 years. *Mitigation*: Train a recursive multi-step variant (planned v1.1).
+- **Metric inflation on low-emitter countries**: SMAPE and MASE denominators approach zero for ~41 historically near-zero emitters, inflating the unweighted aggregate. *Mitigation*: Log-transform targets or apply emission-weighted loss; report segmented metrics alongside aggregates (already done in the Evaluation section).
+- **Global anomaly threshold**: LSTM-AE uses one Isolation Forest decision boundary across all countries. *Mitigation*: Fit per-country thresholds for structurally different emission profiles (planned v1.1).
+- **Pre-transformer anomaly architecture**: LSTM-AE design predates Anomaly Transformer and TimesNet. *Mitigation*: Upgrade to a transformer-based anomaly detector (planned v1.1).
+- **Inconclusive causal estimate**: The Paris Agreement ATT 95% CI crosses zero, so an effect cannot be confirmed at conventional significance. *Mitigation*: Wait for a longer post-treatment window, add richer covariates, or apply alternative identification strategies such as synthetic controls.
+
+---
+
+## Ethical Considerations
+
+- **Intended use**: Exploratory policy research, academic analysis, and educational demonstrations of ML pipeline design. Not intended for high-stakes regulatory or financial decisions without expert review.
+- **Performance disparity**: The model significantly underperforms on low-emitter and rapidly industrializing nations. Users should apply segmented evaluation (see Results) rather than aggregate metrics.
+- **Causal claims**: The Paris Agreement ATT estimate is inconclusive (95% CI crosses zero). Results should not be cited as evidence of policy success or failure without additional analysis.
+- **Data provenance**: CO2 data sourced from Our World in Data (CC BY 4.0). World Bank WDI data is subject to their open data terms.
 
 ---
 
@@ -109,3 +123,26 @@ consistent with recent econometrics literature on the Paris Agreement.
 
 Planned v1.1: transformer-based anomaly detector, recursive multi-step forecasting,
 per-country anomaly thresholds, test coverage 60%+.
+
+---
+
+## Citation
+
+If you use this work, please cite:
+
+```bibtex
+@software{kim2026climateMlPlatform,
+  author    = {Kim, Ju Ho},
+  title     = {Climate ML Platform: End-to-End Climate Data Platform
+               with Medallion Lakehouse Pipeline},
+  year      = {2026},
+  publisher = {GitHub},
+  url       = {https://github.com/jurinho17-sv/climate-ml-platform}
+}
+```
+
+---
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
